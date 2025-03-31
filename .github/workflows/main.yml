@@ -7,9 +7,13 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 👈 Crucial addition
     steps:
     - uses: actions/checkout@v4
-    
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}  # 👈 Add this
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -25,12 +29,9 @@ jobs:
       run: python scraper.py
       
     - name: Commit changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/${{ github.repository }}
         git add devices.json
         git commit -m "Update device list" || echo "No changes to commit"
         git push
