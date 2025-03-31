@@ -59,8 +59,7 @@ if __name__ == "__main__":
     # Test message
     if os.environ.get('SEND_TEST'):
         send_telegram("✅ Scraper test successful!")
-        os.environ['SEND_TEST'] = '1'
-        exit()
+        os.environ['SEND_TEST'] = '1'exit()
     
     existing = get_existing_devices()
     new_devices = scrape_devices()
